@@ -37,7 +37,7 @@ def evaluate_answer(data: EvaluationRequest, db: Session = Depends(get_db)):
     similarity = cosine_similarity([user_embedding], [expected_embedding])[0][0]
     similarity = float(similarity)
     
-    if similarity >= 0.8:
+    if similarity >= 0.6:
         is_correct = True
     else:
         is_correct = False  
