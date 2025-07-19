@@ -8,4 +8,4 @@ class Question(Base):
     id = Column(Integer, primary_key=True)
     role_id = Column(Integer, ForeignKey("roles.id"))
     question = Column(String)
-    correct_answer = Column(String)
+    answer = Column(String)

@@ -7,5 +7,6 @@
       "args": ["--rcfile", "${workspaceFolder}/.venv/bin/activate"]
     }
   },
-  "terminal.integrated.defaultProfile.linux": "bash"
+  "terminal.integrated.defaultProfile.linux": "bash",
+  "postman.settings.dotenv-detection-notification-visibility": false
 }

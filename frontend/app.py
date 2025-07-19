@@ -1,18 +1,26 @@
 import streamlit as st
 import requests
+import os
 
-API_URL = "http://localhost:8000"  # Cambiar por la URL real del backend si está en contenedor
+API_URL = os.getenv("API_URL", "http://backend:8000") # Cambiar por la URL real del backend si está en contenedor
 
 st.title("Entrevista Técnica IA")
+
 
 # Paso 1: seleccionar rol
 roles = {"Data Science": 1}  # En el futuro se puede hacer dinámico desde la API
 selected_role = st.selectbox("Selecciona el puesto al que deseas postularte:", list(roles.keys()))
 
 if st.button("Comenzar entrevista"):
+    # Paso 2: obtener preguntas del backend segun el rol seleccionado
     role_id = roles[selected_role]
-    response = requests.get(f"{API_URL}/questions/{role_id}", params={"n": 10})
+    # Hacer la solicitud a la API para obtener las preguntas segun rol (rol_id)
+    # Cantidad de preguntas (params) puede ser configurable
+    response = requests.get(f"{API_URL}/questions/{role_id}", params={"n": 5})
 
+    #questions = response.json() #Para debug, mostrar las preguntas obtenidas
+    #st.json(questions)  # Para debug, mostrar las preguntas obtenidas
+    
     if response.status_code != 200:
         st.error("Error al obtener las preguntas.")
     else:
@@ -39,7 +47,7 @@ if "questions" in st.session_state:
                 st.session_state.correct += 1
 
             st.session_state.current_index += 1
-            st.experimental_rerun()
+            st.rerun()
     else:
         total = len(st.session_state.questions)
         correct = st.session_state.correct

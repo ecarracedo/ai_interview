@@ -1,9 +1,11 @@
 from fastapi import FastAPI, HTTPException
 from db import SessionLocal
 from models import Question
+from routers import evaluate
 import random
 
 app = FastAPI()
+app.include_router(evaluate.router)
 
 @app.get("/questions/{role_id}")
 def get_random_questions(role_id: int, n: int = 10):
@@ -17,3 +19,5 @@ def get_random_questions(role_id: int, n: int = 10):
         return [{"id": q.id, "question": q.question} for q in sampled]
     finally:
         db.close()
+
+
